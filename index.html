@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Click Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Waiting for authentication...</h1>
+    <p></p>
+
+    <script>
+        let pattern = "";
+        const expectedPattern = "LRRL";
+        let timeout;
+
+        function resetPattern() {
+            pattern = "";
+        }
+
+        document.addEventListener('mousedown', function(event) {
+            clearTimeout(timeout);
+
+            if (event.button === 0) {
+                pattern += "L"; // Left click
+            } else if (event.button === 2) {
+                pattern += "R"; // Right click
+            }
+
+            if (pattern === expectedPattern) {
+                window.open("https://www.google.com", "_blank");
+                resetPattern();
+            } else if (!expectedPattern.startsWith(pattern)) {
+                resetPattern();
+            }
+
+            timeout = setTimeout(resetPattern, 1000); // Reset after 1 second of inactivity
+        });
+
+        // Prevent the default context menu from appearing on right-click
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+    </script>
+
+</body>
+</html>
